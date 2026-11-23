@@ -1,0 +1,50 @@
+{
+  "servers": {
+    "security_inspector": {
+      "name": "security_inspector",
+      "description": "Read-only defensive inspector for HTTP headers, TLS certificates, and audit logs",
+      "transport": "stdio",
+      "command": "python",
+      "args": [
+        "-m",
+        "servers.sample_inspector_mcp"
+      ],
+      "cwd": ".",
+      "env": {},
+      "enabled": true,
+      "requires_approval": false,
+      "tools_require_approval": [
+        "inspect_tls_cert"
+      ]
+    },
+    "network_recon_mock": {
+      "name": "network_recon_mock",
+      "description": "Defensive network topology & host reachability checker (sample toggled server)",
+      "transport": "stdio",
+      "command": "python",
+      "args": [
+        "-m",
+        "servers.sample_inspector_mcp",
+        "--mode",
+        "recon"
+      ],
+      "cwd": ".",
+      "env": {},
+      "enabled": false,
+      "requires_approval": true,
+      "tools_require_approval": []
+    },
+    "remote_audit_feed": {
+      "name": "remote_audit_feed",
+      "description": "Remote audit & compliance event feed via HTTP/SSE transport",
+      "transport": "sse",
+      "url": "http://127.0.0.1:8080/sse",
+      "headers": {
+        "Authorization": "Bearer ${AUDIT_TOKEN:-dev_secret}"
+      },
+      "enabled": false,
+      "requires_approval": true,
+      "tools_require_approval": []
+    }
+  }
+}

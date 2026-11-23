@@ -1,0 +1,49 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Virtual environments & build/packaging artifacts
+.venv/
+venv/
+ENV/
+env/
+build/
+dist/
+*.egg-info/
+.eggs/
+pip-wheel-metadata/
+
+# Testing & coverage
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+.nox/
+
+# Environment variables, API keys & local config overrides
+.env
+.env.*
+!.env.example
+config/secrets.json
+
+# Runtime session outputs, SQLite evidence DB & logs
+runs/
+*.db
+*.sqlite
+*.sqlite3
+*.log
+!sample_data/audit_sample.log
+
+# Packet captures & large local test dumps
+*.pcap
+*.pcapng
+
+# OS & IDE / Editor files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.swp
+*.swo

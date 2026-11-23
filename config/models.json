@@ -1,0 +1,93 @@
+{
+  "active_model": "ollama/qwen2.5:3b",
+  "providers": {
+    "ollama": {
+      "type": "ollama",
+      "base_url": "http://localhost:11434/v1",
+      "api_key": "ollama",
+      "description": "Local Ollama instance supporting open-weight models"
+    },
+    "openai": {
+      "type": "openai",
+      "base_url": "https://api.openai.com/v1",
+      "api_key": "${OPENAI_API_KEY}",
+      "description": "Official OpenAI API endpoint"
+    },
+    "custom_openai": {
+      "type": "openai_compatible",
+      "base_url": "http://localhost:8000/v1",
+      "api_key": "${LOCAL_API_KEY:-token}",
+      "description": "Custom OpenAI-compatible endpoint (vLLM, LMStudio, LocalAI)"
+    },
+    "mock": {
+      "type": "mock",
+      "description": "Deterministic local mock provider for offline testing, CI, and demonstrations"
+    }
+  },
+  "models": {
+    "ollama/qwen2.5:3b": {
+      "provider": "ollama",
+      "model_name": "qwen2.5:3b",
+      "temperature": 0.2,
+      "max_tokens": 4096,
+      "context_window": 32768,
+      "description": "Alibaba Qwen 2.5 3B (Installed locally) - fast, lightweight reasoning with native tool calling"
+    },
+    "ollama/gemma2:2b": {
+      "provider": "ollama",
+      "model_name": "gemma2:2b",
+      "temperature": 0.2,
+      "max_tokens": 4096,
+      "context_window": 8192,
+      "description": "Google Gemma 2 2B (Installed locally) - ultra-fast lightweight model"
+    },
+    "ollama/mistral7b:latest": {
+      "provider": "ollama",
+      "model_name": "mistral7b:latest",
+      "temperature": 0.2,
+      "max_tokens": 4096,
+      "context_window": 32768,
+      "description": "Mistral 7B (Installed locally) - versatile general reasoning model"
+    },
+    "ollama/dolphin8b:latest": {
+      "provider": "ollama",
+      "model_name": "dolphin8b:latest",
+      "temperature": 0.2,
+      "max_tokens": 4096,
+      "context_window": 8192,
+      "description": "Dolphin 8B (Installed locally) - instruction tuned model"
+    },
+    "ollama/qwen2.5:7b": {
+      "provider": "ollama",
+      "model_name": "qwen2.5:7b",
+      "temperature": 0.2,
+      "max_tokens": 4096,
+      "context_window": 32768,
+      "description": "Alibaba Qwen 2.5 7B via Ollama (Requires: ollama pull qwen2.5:7b)"
+    },
+    "openai/gpt-4o": {
+      "provider": "openai",
+      "model_name": "gpt-4o",
+      "temperature": 0.1,
+      "max_tokens": 4096,
+      "context_window": 128000,
+      "description": "OpenAI GPT-4o frontier model"
+    },
+    "openai/gpt-4o-mini": {
+      "provider": "openai",
+      "model_name": "gpt-4o-mini",
+      "temperature": 0.1,
+      "max_tokens": 4096,
+      "context_window": 128000,
+      "description": "OpenAI GPT-4o-mini fast reasoning model"
+    },
+    "mock/security-agent": {
+      "provider": "mock",
+      "model_name": "mock-security-agent",
+      "temperature": 0.0,
+      "max_tokens": 2048,
+      "context_window": 8192,
+      "description": "Deterministic mock agent demonstrating multi-step tool calls and grounded analysis"
+    }
+  }
+}

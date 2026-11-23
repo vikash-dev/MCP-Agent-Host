@@ -1,0 +1,12 @@
+2026-11-22 10:00:01 INFO [auth] User 'admin' logged in successfully from 192.168.1.50
+2026-11-22 10:05:12 INFO [web] GET /api/v1/health status=200 client=192.168.1.100
+2026-11-22 10:12:33 WARNING [auth] Failed login attempt for user 'root' from 192.168.1.105 (Invalid credentials)
+2026-11-22 10:12:35 WARNING [auth] Failed login attempt for user 'root' from 192.168.1.105 (Invalid credentials)
+2026-11-22 10:12:38 WARNING [auth] Failed login attempt for user 'root' from 192.168.1.105 (Invalid credentials)
+2026-11-22 10:12:40 ALERT [auth] Multiple failed logins detected from 192.168.1.105 - Account lockout triggered for 15 minutes
+2026-11-22 10:15:02 WARNING [web] GET /admin/config.php status=403 client=192.168.1.105 (Access Denied)
+2026-11-22 10:15:04 WARNING [web] GET /.env status=403 client=192.168.1.105 (Access Denied)
+2026-11-22 10:15:06 WARNING [web] GET /wp-login.php status=404 client=192.168.1.105
+2026-11-22 10:20:15 INFO [backup] Automated snapshot completed successfully (size: 420MB)
+2026-11-22 10:25:44 ERROR [api] Invalid authorization token supplied for endpoint /api/v1/metrics from client=192.168.1.200
+2026-11-22 10:30:00 INFO [system] Scheduled audit check finished cleanly. No system integrity violations detected.

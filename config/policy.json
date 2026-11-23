@@ -1,0 +1,23 @@
+{
+  "policy_name": "Host Defense & Assessment Scope Policy",
+  "version": "1.0.0",
+  "scope": {
+    "allowed_domains": [
+      "trackurja.com"
+    ],
+    "allowed_cidrs": [],
+    "allowed_paths": [
+      "sample_data"
+    ]
+  },
+  "execution_limits": {
+    "timeout_seconds": 25,
+    "max_output_chars": 5000
+  },
+  "human_in_the_loop": {
+    "default_requires_approval": false,
+    "sensitive_tools": [
+      "inspect_tls_cert"
+    ]
+  }
+}
