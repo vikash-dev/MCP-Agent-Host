@@ -3,11 +3,15 @@
   "version": "1.0.0",
   "scope": {
     "allowed_domains": [
-      "trackurja.com"
+      "example.com",
+      "test.corp"
     ],
-    "allowed_cidrs": [],
+    "allowed_cidrs": [
+      "10.0.0.0/8"
+    ],
     "allowed_paths": [
-      "sample_data"
+      "./sample_data",
+      "./runs"
     ]
   },
   "execution_limits": {

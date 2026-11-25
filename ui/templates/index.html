@@ -190,10 +190,16 @@
                         <h2 class="text-xl font-bold text-white">Dynamic Model Switcher</h2>
                         <p class="text-sm text-slate-400">Switch the reasoning model on the fly without disconnecting running MCP servers.</p>
                     </div>
-                    <button onclick="openModal('add-model-modal')" class="bg-cyan-600 hover:bg-cyan-500 text-white px-3.5 py-2 rounded-lg text-xs font-semibold flex items-center space-x-2 shadow-sm">
-                        <i class="fa-solid fa-plus"></i>
-                        <span>Register New Model</span>
-                    </button>
+                    <div class="flex items-center space-x-3">
+                        <button onclick="syncOllamaModels()" id="sync-ollama-btn" class="bg-amber-600/20 hover:bg-amber-600 hover:text-white text-amber-400 border border-amber-500/40 px-3.5 py-2 rounded-lg text-xs font-semibold flex items-center space-x-2 shadow-sm transition">
+                            <i class="fa-solid fa-rotate text-sm"></i>
+                            <span>Sync Local Ollama Models</span>
+                        </button>
+                        <button onclick="openModal('add-model-modal')" class="bg-cyan-600 hover:bg-cyan-500 text-white px-3.5 py-2 rounded-lg text-xs font-semibold flex items-center space-x-2 shadow-sm">
+                            <i class="fa-solid fa-plus"></i>
+                            <span>Register New Model</span>
+                        </button>
+                    </div>
                 </div>
 
                 <!-- Models Grid -->
@@ -567,6 +573,27 @@
                 alert(data.message);
             } catch (err) {
                 alert("Error registering model: " + err);
+            }
+        }
+
+        async function syncOllamaModels() {
+            const btn = document.getElementById("sync-ollama-btn");
+            if (btn) {
+                btn.disabled = true;
+                btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin text-sm"></i><span>Detecting Ollama Models...</span>`;
+            }
+            try {
+                const res = await fetch("/api/models/ollama/sync", { method: "POST" });
+                const data = await res.json();
+                await loadModels();
+                appendSystemMessage(`🔄 Detected and synced **${data.models.filter(m => m.provider === 'ollama').length}** Ollama models from local instance.`);
+            } catch (e) {
+                alert("Could not sync with local Ollama: " + e);
+            } finally {
+                if (btn) {
+                    btn.disabled = false;
+                    btn.innerHTML = `<i class="fa-solid fa-rotate text-sm"></i><span>Sync Local Ollama Models</span>`;
+                }
             }
         }
 

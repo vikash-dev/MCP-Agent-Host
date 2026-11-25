@@ -49,6 +49,14 @@
       "context_window": 32768,
       "description": "Mistral 7B (Installed locally) - versatile general reasoning model"
     },
+    "ollama/mistral:7b": {
+      "provider": "ollama",
+      "model_name": "mistral7b:latest",
+      "temperature": 0.2,
+      "max_tokens": 4096,
+      "context_window": 32768,
+      "description": "Mistral 7B (Alias to local mistral7b:latest)"
+    },
     "ollama/dolphin8b:latest": {
       "provider": "ollama",
       "model_name": "dolphin8b:latest",
@@ -88,6 +96,14 @@
       "max_tokens": 2048,
       "context_window": 8192,
       "description": "Deterministic mock agent demonstrating multi-step tool calls and grounded analysis"
+    },
+    "ollama/test-model:latest": {
+      "provider": "ollama",
+      "model_name": "test-model:latest",
+      "temperature": 0.2,
+      "max_tokens": 4096,
+      "context_window": 32768,
+      "description": "Test model registration"
     }
   }
 }

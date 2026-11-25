@@ -54,6 +54,13 @@ def test_models_api(client):
     })
     assert add_res.status_code == 200
 
+    # Sync Ollama models endpoint
+    sync_res = client.post("/api/models/ollama/sync")
+    assert sync_res.status_code == 200
+    sync_data = sync_res.json()
+    assert sync_data["status"] == "SUCCESS"
+    assert "models" in sync_data
+
 
 def test_servers_and_tools_api(client):
     # Servers list
