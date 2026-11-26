@@ -4,12 +4,18 @@
   "scope": {
     "allowed_domains": [
       "example.com",
-      "test.corp"
+      "test.corp",
+      "localhost",
+      "127.0.0.1",
+      "*.example.com"
     ],
     "allowed_cidrs": [
-      "10.0.0.0/8"
+      "10.0.0.0/8",
+      "192.168.1.0/24"
     ],
     "allowed_paths": [
+      "./logs",
+      "./artifacts",
       "./sample_data",
       "./runs"
     ]

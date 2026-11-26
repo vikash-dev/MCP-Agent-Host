@@ -1,5 +1,5 @@
 {
-  "active_model": "ollama/qwen2.5:3b",
+  "active_model": "mock/security-agent",
   "providers": {
     "ollama": {
       "type": "ollama",

@@ -82,6 +82,18 @@
                 </label>
             </div>
 
+            <!-- Documentation Links -->
+            <div class="flex items-center space-x-1 border-r border-darkborder/70 pr-3">
+                <a href="/docs/user-guide" target="_blank" class="px-2.5 py-1.5 rounded-lg text-xs font-medium text-slate-300 hover:text-cyan-300 hover:bg-darkcard transition flex items-center space-x-1.5" title="Open Beginner-to-Pro User Guide">
+                    <i class="fa-solid fa-book-open text-cyan-400"></i>
+                    <span>User Guide</span>
+                </a>
+                <a href="/docs/developer-guide" target="_blank" class="px-2.5 py-1.5 rounded-lg text-xs font-medium text-slate-300 hover:text-cyan-300 hover:bg-darkcard transition flex items-center space-x-1.5" title="Open Developer Architecture & Extension Guide">
+                    <i class="fa-solid fa-code text-cyan-400"></i>
+                    <span>Dev Guide</span>
+                </a>
+            </div>
+
             <!-- Generate Report Button -->
             <button onclick="generateActiveReport()" class="bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white px-3 py-1.5 rounded-lg text-xs font-semibold flex items-center space-x-2 shadow-sm transition">
                 <i class="fa-solid fa-file-shield"></i>
@@ -117,6 +129,25 @@
                     <span>Evidence & Reports</span>
                 </button>
             </nav>
+
+            <!-- Documentation Guides Section -->
+            <div class="my-3 pt-3 border-t border-darkborder/60 space-y-1">
+                <div class="px-2 text-[10px] uppercase font-bold tracking-wider text-slate-500">Documentation</div>
+                <a href="/docs/user-guide" target="_blank" class="flex items-center justify-between px-3 py-1.5 rounded-lg text-xs font-medium text-slate-400 hover:bg-darkborder/50 hover:text-cyan-300 transition group">
+                    <span class="flex items-center space-x-2.5">
+                        <i class="fa-solid fa-book-open text-cyan-400 w-4 text-center"></i>
+                        <span>User Guide</span>
+                    </span>
+                    <i class="fa-solid fa-arrow-up-right-from-square text-[10px] text-slate-500 group-hover:text-cyan-300"></i>
+                </a>
+                <a href="/docs/developer-guide" target="_blank" class="flex items-center justify-between px-3 py-1.5 rounded-lg text-xs font-medium text-slate-400 hover:bg-darkborder/50 hover:text-cyan-300 transition group">
+                    <span class="flex items-center space-x-2.5">
+                        <i class="fa-solid fa-code text-cyan-400 w-4 text-center"></i>
+                        <span>Dev Guide</span>
+                    </span>
+                    <i class="fa-solid fa-arrow-up-right-from-square text-[10px] text-slate-500 group-hover:text-cyan-300"></i>
+                </a>
+            </div>
 
             <!-- Bottom Session Info Box -->
             <div class="bg-darkbg/90 border border-darkborder rounded-lg p-3 text-xs space-y-1.5">

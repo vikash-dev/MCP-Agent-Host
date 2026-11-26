@@ -11,6 +11,19 @@ The system architecture mirrors the high-level layered separation established in
 
 ---
 
+## 📚 Documentation & Guides
+
+Comprehensive documentation is available for both end-users and software engineers:
+
+| Guide | Target Audience | Key Topics Covered |
+| :--- | :--- | :--- |
+| **[📘 Beginner-to-Pro User Guide](file:///d:/AIexperiments/AIenabPTtool/docs/USER_GUIDE.md)** | Anyone from beginners to security operators | Kid-friendly analogies (Brain, Toolbox, Permission Slip, Notebook), 5-minute setup, connecting local Ollama, setting scope allowlists, worked security inspection examples, HITL approval gates, and prompt cheat sheet. |
+| **[🛠️ Developer & Architecture Guide](file:///d:/AIexperiments/AIenabPTtool/docs/DEVELOPER_GUIDE.md)** | Developers, architects & contributors | End-to-end 5-layer execution lifecycle, module-by-module deep dives, stdio & SSE JSON-RPC 2.0 protocol specifications, building custom MCP servers step-by-step, custom LLM adapters, guardrail middleware extensions, SQLite schema, and test strategies. |
+
+> 💡 **In-App Documentation**: When running the Web Dashboard (`python ui.py`), you can also read both guides directly inside your browser via the header buttons or at [`http://127.0.0.1:8000/docs/user-guide`](http://127.0.0.1:8000/docs/user-guide) and [`http://127.0.0.1:8000/docs/developer-guide`](http://127.0.0.1:8000/docs/developer-guide).
+
+---
+
 ## Architecture Diagram
 
 ```
@@ -382,7 +395,7 @@ Execute the comprehensive test suite:
 pytest -v
 ```
 
-All 15 integration and unit tests cover:
+All 21 integration, unit, and API tests cover:
 - Dynamic model swapping without dropping MCP connections
 - Stdio MCP server lifecycle, handshake, and tool discovery
 - Plug-and-play dynamic server enabling/disabling
@@ -392,3 +405,4 @@ All 15 integration and unit tests cover:
 - SQLite evidence store logging & artifact persistence
 - Grounded Markdown & HTML report compilation
 - End-to-end multi-turn agent reasoning loop
+- FastAPI Web UI REST API endpoints & documentation routes

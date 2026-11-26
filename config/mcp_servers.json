@@ -42,7 +42,7 @@
       "headers": {
         "Authorization": "Bearer ${AUDIT_TOKEN:-dev_secret}"
       },
-      "enabled": false,
+      "enabled": true,
       "requires_approval": true,
       "tools_require_approval": []
     }

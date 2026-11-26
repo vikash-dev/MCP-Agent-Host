@@ -421,3 +421,46 @@ async def serve_dashboard():
         return HTMLResponse("<h1>Dashboard template not found</h1>", status_code=500)
     with open(template_path, "r", encoding="utf-8") as f:
         return HTMLResponse(f.read())
+
+
+from markdown_it import MarkdownIt
+
+md_parser = MarkdownIt('commonmark').enable('table')
+
+
+def _render_doc_page(title: str, md_path: str, doc_type: str = "user") -> HTMLResponse:
+    if not os.path.exists(md_path):
+        raise HTTPException(status_code=404, detail="Document not found")
+    with open(md_path, "r", encoding="utf-8") as f:
+        md_text = f.read()
+    
+    # Pre-render markdown to HTML on server for 100% reliable, instant display
+    rendered_body = md_parser.render(md_text)
+
+    template_path = os.path.join(os.path.dirname(__file__), "templates", "doc_page.html")
+    if not os.path.exists(template_path):
+        raise HTTPException(status_code=500, detail="Documentation template not found")
+    with open(template_path, "r", encoding="utf-8") as f:
+        tpl_str = f.read()
+
+    from jinja2 import Template
+    tpl = Template(tpl_str)
+    rendered_html = tpl.render(
+        title=title,
+        doc_type=doc_type,
+        rendered_content=rendered_body,
+        md_json=json.dumps(md_text)
+    )
+    return HTMLResponse(rendered_html)
+
+
+@app.get("/docs/user-guide", response_class=HTMLResponse)
+async def view_user_guide():
+    doc_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), "docs", "USER_GUIDE.md")
+    return _render_doc_page("User Guide", doc_path, doc_type="user")
+
+
+@app.get("/docs/developer-guide", response_class=HTMLResponse)
+async def view_developer_guide():
+    doc_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), "docs", "DEVELOPER_GUIDE.md")
+    return _render_doc_page("Developer Guide", doc_path, doc_type="dev")

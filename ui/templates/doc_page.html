@@ -1,0 +1,1033 @@
+<!DOCTYPE html>
+<html lang="en" class="dark scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title }} — MCP Agent Host Documentation</title>
+    
+    <!-- Google Fonts: Inter & JetBrains Mono -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    colors: {
+                        darkbg: '#080c14',
+                        darkcard: '#0f172a',
+                        darkcard2: '#131e33',
+                        darkborder: '#1e293b',
+                        brandcyan: '#06b6d4',
+                        brandemerald: '#10b981',
+                        brandpurple: '#a855f7',
+                        brandamber: '#f59e0b'
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- FontAwesome 6 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Highlight.js for Syntax Highlighting -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+
+    <!-- Marked.js for Markdown Parsing -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    
+    <!-- Mermaid.js for Diagrams -->
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+
+    <style>
+        /* Custom Scrollbars */
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: #080c14; }
+        ::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #334155; }
+
+        /* Typography & Document Styles */
+        .doc-prose {
+            font-size: 15px;
+            line-height: 1.75;
+            color: #cbd5e1;
+        }
+        .doc-prose h1 {
+            font-size: 2.25rem;
+            font-weight: 800;
+            letter-spacing: -0.025em;
+            color: #ffffff;
+            margin-top: 1rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 1px solid #1e293b;
+        }
+        .doc-prose h2 {
+            font-size: 1.65rem;
+            font-weight: 700;
+            color: #f1f5f9;
+            margin-top: 2.75rem;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid #1e293b;
+            scroll-margin-top: 5.5rem;
+            display: flex;
+            align-items: center;
+        }
+        .doc-prose h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #38bdf8;
+            margin-top: 2rem;
+            margin-bottom: 0.75rem;
+            scroll-margin-top: 5.5rem;
+        }
+        .doc-prose h4 {
+            font-size: 1.05rem;
+            font-weight: 600;
+            color: #94a3b8;
+            margin-top: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+        .doc-prose p {
+            margin-bottom: 1.15rem;
+        }
+        .doc-prose ul {
+            list-style-type: disc;
+            padding-left: 1.5rem;
+            margin-bottom: 1.25rem;
+            space-y: 0.5rem;
+        }
+        .doc-prose ol {
+            list-style-type: decimal;
+            padding-left: 1.5rem;
+            margin-bottom: 1.25rem;
+            space-y: 0.5rem;
+        }
+        .doc-prose li {
+            margin-bottom: 0.4rem;
+        }
+        .doc-prose hr {
+            border: 0;
+            border-top: 1px solid #1e293b;
+            margin: 2.5rem 0;
+        }
+        .doc-prose a {
+            color: #38bdf8;
+            text-decoration: underline;
+            text-underline-offset: 3px;
+            transition: color 0.15s;
+        }
+        .doc-prose a:hover {
+            color: #7dd3fc;
+        }
+        .doc-prose code:not(pre code) {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.88em;
+            color: #38bdf8;
+            background: #131e33;
+            border: 1px solid #1e293b;
+            padding: 2px 6px;
+            border-radius: 5px;
+        }
+
+        /* Modern Tables */
+        .doc-prose table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            margin: 1.5rem 0 2rem 0;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid #1e293b;
+            background: #0b111e;
+        }
+        .doc-prose th {
+            background: #111a2e;
+            color: #38bdf8;
+            font-weight: 600;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            padding: 12px 14px;
+            border-bottom: 1px solid #1e293b;
+            text-align: left;
+        }
+        .doc-prose td {
+            padding: 12px 14px;
+            border-bottom: 1px solid #152033;
+            font-size: 0.88rem;
+            color: #cbd5e1;
+            vertical-align: top;
+        }
+        .doc-prose tr:last-child td {
+            border-bottom: none;
+        }
+        .doc-prose tr:hover td {
+            background: #131d33;
+        }
+
+        /* Mermaid Diagram Container */
+        .mermaid-container {
+            background: #0b111e;
+            border: 1px solid #1e293b;
+            border-radius: 12px;
+            padding: 20px;
+            margin: 2rem 0;
+            box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.5);
+            transition: border-color 0.2s;
+        }
+        .mermaid-container:hover {
+            border-color: #0284c7;
+        }
+        .mermaid svg {
+            max-width: 100%;
+            height: auto;
+            margin: 0 auto;
+            display: block;
+        }
+
+        /* Callout Alerts */
+        .callout-box {
+            border-radius: 10px;
+            padding: 16px 18px;
+            margin: 1.5rem 0;
+            display: flex;
+            gap: 14px;
+            font-size: 0.92rem;
+            line-height: 1.6;
+        }
+        .callout-tip {
+            background: rgba(16, 185, 129, 0.08);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            color: #a7f3d0;
+        }
+        .callout-note {
+            background: rgba(6, 182, 212, 0.08);
+            border: 1px solid rgba(6, 182, 212, 0.3);
+            color: #bae6fd;
+        }
+        .callout-warning {
+            background: rgba(245, 158, 11, 0.08);
+            border: 1px solid rgba(245, 158, 11, 0.3);
+            color: #fde68a;
+        }
+        .callout-danger {
+            background: rgba(239, 68, 68, 0.08);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            color: #fecaca;
+        }
+
+        /* Search Highlight */
+        .search-match {
+            background-color: #f59e0b;
+            color: #000;
+            border-radius: 2px;
+            padding: 0 2px;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body class="bg-darkbg text-slate-100 font-sans min-h-screen flex flex-col antialiased selection:bg-brandcyan/30 selection:text-white">
+
+    <!-- Scroll Progress Bar -->
+    <div id="scroll-progress" class="fixed top-0 left-0 h-[3px] bg-gradient-to-r from-brandcyan via-brandemerald to-brandpurple z-50 transition-all duration-75 w-0"></div>
+
+    <!-- Top Sticky Navigation Bar -->
+    <header class="sticky top-0 z-40 bg-darkcard/90 backdrop-blur-md border-b border-darkborder/80 px-4 lg:px-8 py-3">
+        <div class="max-w-7xl mx-auto flex items-center justify-between gap-4">
+            
+            <!-- Left: Logo & Portal Title -->
+            <div class="flex items-center space-x-3 shrink-0">
+                <a href="/" class="flex items-center space-x-3 group text-white no-underline">
+                    <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-cyan-600 to-teal-400 flex items-center justify-center text-white shadow-lg shadow-cyan-500/20 group-hover:scale-105 transition-transform">
+                        <i class="fa-solid fa-shield-halved text-base"></i>
+                    </div>
+                    <div>
+                        <div class="font-bold text-sm tracking-wide flex items-center space-x-2">
+                            <span>MCP Host</span>
+                            <span class="text-[10px] font-mono px-2 py-0.5 rounded-full bg-cyan-950/80 border border-cyan-800/80 text-cyan-400 font-normal">DOCS</span>
+                        </div>
+                        <div class="text-[11px] text-slate-400">Model Context Protocol Agent</div>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Middle: Active Doc Switcher & Quick Navigation -->
+            <div class="hidden md:flex items-center bg-darkbg border border-darkborder rounded-xl p-1 shadow-inner">
+                <a href="/docs/user-guide" class="px-3.5 py-1.5 rounded-lg text-xs font-medium transition flex items-center space-x-2 {{ 'bg-cyan-600/20 text-cyan-400 border border-cyan-500/30 shadow-sm' if doc_type == 'user' else 'text-slate-400 hover:text-slate-200 hover:bg-darkborder/50' }}">
+                    <i class="fa-solid fa-book-open"></i>
+                    <span>User Guide</span>
+                    <span class="text-[10px] px-1.5 py-0.2 rounded bg-cyan-900/50 text-cyan-300">Beginner to Pro</span>
+                </a>
+                <a href="/docs/developer-guide" class="px-3.5 py-1.5 rounded-lg text-xs font-medium transition flex items-center space-x-2 {{ 'bg-cyan-600/20 text-cyan-400 border border-cyan-500/30 shadow-sm' if doc_type == 'dev' else 'text-slate-400 hover:text-slate-200 hover:bg-darkborder/50' }}">
+                    <i class="fa-solid fa-code"></i>
+                    <span>Developer Guide</span>
+                    <span class="text-[10px] px-1.5 py-0.2 rounded bg-purple-900/50 text-purple-300">Architecture</span>
+                </a>
+            </div>
+
+            <!-- Right: Search Bar & Actions -->
+            <div class="flex items-center space-x-3">
+                <!-- Search Box -->
+                <div class="relative w-48 lg:w-64">
+                    <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-xs"></i>
+                    <input type="text" id="doc-search-input" placeholder="Search doc..." oninput="handleDocSearch(this.value)" class="w-full bg-darkbg border border-darkborder focus:border-brandcyan text-xs text-slate-200 pl-8 pr-8 py-1.5 rounded-lg outline-none transition placeholder-slate-500">
+                    <button id="clear-search-btn" onclick="clearDocSearch()" class="hidden absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-200 text-xs">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </div>
+
+                <!-- Interactive Playground Drawer Toggle -->
+                <button onclick="togglePlaygroundModal()" class="bg-cyan-950/70 border border-cyan-700/60 hover:bg-cyan-900/70 text-cyan-300 px-3 py-1.5 rounded-lg text-xs font-medium flex items-center space-x-1.5 transition shadow-sm" title="Open Interactive Sandbox">
+                    <i class="fa-solid fa-flask"></i>
+                    <span class="hidden sm:inline">Playground</span>
+                </button>
+
+                <!-- Back to Mission Control -->
+                <a href="/" class="bg-gradient-to-r from-slate-800 to-slate-900 hover:from-slate-700 hover:to-slate-800 text-slate-200 px-3 py-1.5 rounded-lg text-xs font-medium flex items-center space-x-1.5 border border-slate-700 transition shadow-sm">
+                    <i class="fa-solid fa-arrow-left text-[11px]"></i>
+                    <span class="hidden sm:inline">Mission Control</span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container: 2-Column Responsive Layout -->
+    <div class="max-w-7xl mx-auto w-full flex-1 flex px-4 lg:px-8 py-8 gap-8 relative">
+
+        <!-- Left Sticky Sidebar: Table of Contents & Quick Filters -->
+        <aside class="hidden lg:block w-64 shrink-0">
+            <div class="sticky top-24 space-y-5">
+                
+                <!-- Active Guide Indicator Card -->
+                <div class="bg-darkcard border border-darkborder rounded-xl p-3.5 shadow-md">
+                    <div class="text-[10px] uppercase font-bold tracking-wider text-slate-400 mb-1">Active Document</div>
+                    <div class="font-semibold text-sm text-white flex items-center space-x-2">
+                        <i class="fa-solid {{ 'fa-book-open text-cyan-400' if doc_type == 'user' else 'fa-code text-purple-400' }}"></i>
+                        <span>{{ title }}</span>
+                    </div>
+                    <div class="text-xs text-slate-400 mt-1">
+                        {{ 'Zero-jargon guide with analogies, levels & cheat sheets' if doc_type == 'user' else '5-layer architecture, JSON-RPC protocol & MCP extension' }}
+                    </div>
+                </div>
+
+                <!-- Interactive Quick Jump Chips -->
+                <div class="space-y-1">
+                    <div class="text-[10px] uppercase font-bold tracking-wider text-slate-500 px-2">Quick Jumps</div>
+                    <div class="flex flex-wrap gap-1.5">
+                        <button onclick="scrollToFirstDiagram()" class="text-[11px] bg-cyan-950/50 hover:bg-cyan-900/60 text-cyan-300 border border-cyan-800/60 px-2.5 py-1 rounded-md transition flex items-center space-x-1">
+                            <i class="fa-solid fa-diagram-project text-[10px]"></i>
+                            <span>Diagrams</span>
+                        </button>
+                        <button onclick="scrollToFirstTable()" class="text-[11px] bg-emerald-950/50 hover:bg-emerald-900/60 text-emerald-300 border border-emerald-800/60 px-2.5 py-1 rounded-md transition flex items-center space-x-1">
+                            <i class="fa-solid fa-table text-[10px]"></i>
+                            <span>Tables</span>
+                        </button>
+                        <button onclick="togglePlaygroundModal()" class="text-[11px] bg-purple-950/50 hover:bg-purple-900/60 text-purple-300 border border-purple-800/60 px-2.5 py-1 rounded-md transition flex items-center space-x-1">
+                            <i class="fa-solid fa-flask text-[10px]"></i>
+                            <span>Sandbox</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Table of Contents Navigation -->
+                <nav class="space-y-1">
+                    <div class="text-[10px] uppercase font-bold tracking-wider text-slate-500 px-2 mb-2 flex items-center justify-between">
+                        <span>On This Page</span>
+                        <span id="toc-count" class="text-[10px] font-mono text-cyan-400"></span>
+                    </div>
+                    <div id="table-of-contents" class="max-h-[calc(100vh-320px)] overflow-y-auto space-y-1 pr-1 text-xs">
+                        <!-- Populated dynamically via JavaScript -->
+                    </div>
+                </nav>
+
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="flex-1 min-w-0 max-w-4xl bg-darkcard/50 border border-darkborder/70 rounded-2xl p-6 lg:p-10 shadow-2xl relative">
+            
+            <!-- Document Hero Header Badge -->
+            <div class="mb-6 flex flex-wrap items-center justify-between gap-3 pb-6 border-b border-darkborder/80">
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 rounded-xl bg-cyan-950/80 border border-cyan-700/80 flex items-center justify-center text-cyan-400 text-lg shadow-inner">
+                        <i class="fa-solid {{ 'fa-book-open' if doc_type == 'user' else 'fa-network-wired' }}"></i>
+                    </div>
+                    <div>
+                        <div class="text-xs uppercase font-bold tracking-wider text-cyan-400 font-mono">
+                            {{ 'Beginner to Pro Comprehensive Guide' if doc_type == 'user' else 'Engineering & Architecture Specification' }}
+                        </div>
+                        <div class="text-xs text-slate-400">Model Context Protocol Agent Host • Version 1.0</div>
+                    </div>
+                </div>
+
+                <div class="flex items-center space-x-2 text-xs">
+                    <button onclick="window.print()" class="px-2.5 py-1 rounded-lg bg-darkbg border border-darkborder hover:border-slate-500 text-slate-300 transition flex items-center space-x-1.5" title="Print or save as PDF">
+                        <i class="fa-solid fa-print text-slate-400"></i>
+                        <span>Print</span>
+                    </button>
+                    <button onclick="copyDocumentLink()" id="copy-link-btn" class="px-2.5 py-1 rounded-lg bg-darkbg border border-darkborder hover:border-slate-500 text-slate-300 transition flex items-center space-x-1.5">
+                        <i class="fa-solid fa-link text-slate-400"></i>
+                        <span>Share</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Search Status Toast (Hidden by default) -->
+            <div id="search-status-bar" class="hidden mb-6 p-3 bg-amber-950/40 border border-amber-600/50 rounded-xl text-amber-200 text-xs flex items-center justify-between">
+                <div class="flex items-center space-x-2">
+                    <i class="fa-solid fa-magnifying-glass text-amber-400"></i>
+                    <span id="search-status-text">Found 0 matches</span>
+                </div>
+                <button onclick="clearDocSearch()" class="text-amber-400 hover:text-white underline text-xs">Clear Search</button>
+            </div>
+
+            <!-- Rendered Markdown Content Container -->
+            <article id="doc-content" class="doc-prose">
+                {{ rendered_content | safe }}
+            </article>
+
+            <!-- Bottom Navigation Between Guides -->
+            <div class="mt-12 pt-8 border-t border-darkborder/80 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs">
+                <div>
+                    <div class="text-slate-400">Looking for other documentation?</div>
+                    <div class="text-slate-500 text-[11px]">All guides are updated and tested against the live test suite.</div>
+                </div>
+                <div class="flex items-center space-x-3">
+                    {% if doc_type == 'user' %}
+                    <a href="/docs/developer-guide" class="bg-darkcard border border-darkborder hover:border-cyan-500/50 text-cyan-300 px-4 py-2 rounded-xl transition flex items-center space-x-2 font-medium">
+                        <span>Read Developer Architecture Guide</span>
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </a>
+                    {% else %}
+                    <a href="/docs/user-guide" class="bg-darkcard border border-darkborder hover:border-cyan-500/50 text-cyan-300 px-4 py-2 rounded-xl transition flex items-center space-x-2 font-medium">
+                        <i class="fa-solid fa-arrow-left"></i>
+                        <span>Read Beginner-to-Pro User Guide</span>
+                    </a>
+                    {% endif %}
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <!-- Floating Back-To-Top Button -->
+    <button id="back-to-top" onclick="window.scrollTo({top: 0, behavior: 'smooth'})" class="fixed bottom-6 right-6 w-10 h-10 rounded-full bg-cyan-600/80 hover:bg-cyan-500 text-white shadow-xl shadow-cyan-900/50 flex items-center justify-center transition opacity-0 pointer-events-none z-30">
+        <i class="fa-solid fa-arrow-up text-sm"></i>
+    </button>
+
+    <!-- Interactive Sandbox & Playground Modal -->
+    <div id="playground-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-darkcard border border-darkborder rounded-2xl max-w-2xl w-full shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
+            
+            <!-- Modal Header -->
+            <div class="p-5 border-b border-darkborder flex items-center justify-between bg-darkbg/80">
+                <div class="flex items-center space-x-3">
+                    <div class="p-2 rounded-lg bg-cyan-950/80 border border-cyan-800 text-cyan-400">
+                        <i class="fa-solid fa-flask"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-white text-base">Interactive Documentation Sandbox</h3>
+                        <p class="text-xs text-slate-400">Test scope rules, JSON-RPC messages, and model switches in real-time</p>
+                    </div>
+                </div>
+                <button onclick="togglePlaygroundModal()" class="text-slate-400 hover:text-white p-2">
+                    <i class="fa-solid fa-xmark text-lg"></i>
+                </button>
+            </div>
+
+            <!-- Modal Tabs -->
+            <div class="flex border-b border-darkborder bg-darkcard2 px-5 pt-3 gap-2 text-xs">
+                <button onclick="showPlaygroundTab('scope')" id="pg-tab-scope" class="px-3 py-2 rounded-t-lg font-medium border-b-2 border-cyan-400 text-cyan-300 bg-darkbg">
+                    🛡️ Scope Validator
+                </button>
+                <button onclick="showPlaygroundTab('jsonrpc')" id="pg-tab-jsonrpc" class="px-3 py-2 rounded-t-lg font-medium text-slate-400 hover:text-slate-200">
+                    🔌 JSON-RPC Simulator
+                </button>
+                <button onclick="showPlaygroundTab('models')" id="pg-tab-models" class="px-3 py-2 rounded-t-lg font-medium text-slate-400 hover:text-slate-200">
+                    🧠 Model Quick-Copy
+                </button>
+            </div>
+
+            <!-- Modal Tab Content -->
+            <div class="p-6 overflow-y-auto space-y-4 text-xs">
+                
+                <!-- Tab 1: Scope Validator Sandbox -->
+                <div id="pg-content-scope" class="space-y-4">
+                    <p class="text-slate-300">
+                        Type any URL, domain, or IP address to simulate how the host's <code>GuardrailsMiddleware</code> evaluates permission against <code>config/policy.json</code>:
+                    </p>
+                    <div class="flex gap-2">
+                        <input type="text" id="sim-target-input" value="https://api.example.com/v1" placeholder="e.g. example.com, 192.168.1.15, evilcorp.com" class="flex-1 bg-darkbg border border-darkborder focus:border-brandcyan rounded-lg px-3 py-2 text-white outline-none font-mono">
+                        <button onclick="simulateScopeTest()" class="bg-cyan-600 hover:bg-cyan-500 text-white font-medium px-4 py-2 rounded-lg transition">
+                            Test Scope
+                        </button>
+                    </div>
+                    <div id="sim-scope-result" class="p-4 rounded-xl bg-darkbg border border-darkborder font-mono space-y-2">
+                        <div class="text-slate-400">Click "Test Scope" to evaluate target...</div>
+                    </div>
+                </div>
+
+                <!-- Tab 2: JSON-RPC Protocol Simulator -->
+                <div id="pg-content-jsonrpc" class="space-y-4 hidden">
+                    <p class="text-slate-300">
+                        Inspect the exact JSON-RPC 2.0 messages exchanged over stdio with MCP servers:
+                    </p>
+                    <div class="flex flex-wrap gap-2">
+                        <button onclick="showJsonRpcStep('initialize')" class="px-2.5 py-1.5 rounded-lg bg-darkbg border border-darkborder hover:border-cyan-400 text-cyan-300">1. initialize</button>
+                        <button onclick="showJsonRpcStep('notifications/initialized')" class="px-2.5 py-1.5 rounded-lg bg-darkbg border border-darkborder hover:border-cyan-400 text-cyan-300">2. initialized</button>
+                        <button onclick="showJsonRpcStep('tools/list')" class="px-2.5 py-1.5 rounded-lg bg-darkbg border border-darkborder hover:border-cyan-400 text-cyan-300">3. tools/list</button>
+                        <button onclick="showJsonRpcStep('tools/call')" class="px-2.5 py-1.5 rounded-lg bg-darkbg border border-darkborder hover:border-cyan-400 text-cyan-300">4. tools/call</button>
+                    </div>
+                    <div id="sim-jsonrpc-display" class="bg-[#0b0f17] border border-darkborder rounded-xl p-4 font-mono text-xs overflow-x-auto">
+                        <!-- Populated by JS -->
+                    </div>
+                </div>
+
+                <!-- Tab 3: Model Quick-Copy -->
+                <div id="pg-content-models" class="space-y-3 hidden">
+                    <p class="text-slate-300">
+                        Quick copy commands for connecting and running models:
+                    </p>
+                    <div class="space-y-2">
+                        <div class="bg-darkbg p-3 rounded-lg border border-darkborder flex items-center justify-between">
+                            <div>
+                                <div class="font-bold text-white">Ollama Qwen 2.5 3B (Fast & Private)</div>
+                                <div class="font-mono text-cyan-400 text-[11px]">ollama pull qwen2.5:3b</div>
+                            </div>
+                            <button onclick="copyToClipboard('ollama pull qwen2.5:3b')" class="px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-300">Copy</button>
+                        </div>
+                        <div class="bg-darkbg p-3 rounded-lg border border-darkborder flex items-center justify-between">
+                            <div>
+                                <div class="font-bold text-white">Switch to Offline Mock Simulator</div>
+                                <div class="font-mono text-cyan-400 text-[11px]">/model mock/security-agent</div>
+                            </div>
+                            <button onclick="copyToClipboard('/model mock/security-agent')" class="px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-300">Copy</button>
+                        </div>
+                        <div class="bg-darkbg p-3 rounded-lg border border-darkborder flex items-center justify-between">
+                            <div>
+                                <div class="font-bold text-white">Run Automated Assessment Demo</div>
+                                <div class="font-mono text-cyan-400 text-[11px]">python main.py --demo --auto-approve</div>
+                            </div>
+                            <button onclick="copyToClipboard('python main.py --demo --auto-approve')" class="px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-300">Copy</button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Modal Footer -->
+            <div class="p-4 bg-darkbg border-t border-darkborder flex justify-end">
+                <button onclick="togglePlaygroundModal()" class="px-4 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs">
+                    Close
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Fullscreen Diagram Zoom Modal -->
+    <div id="diagram-modal" class="fixed inset-0 bg-black/90 backdrop-blur-md z-50 hidden flex flex-col p-6">
+        <div class="flex items-center justify-between pb-4 border-b border-slate-800">
+            <h4 class="font-bold text-white text-sm flex items-center space-x-2">
+                <i class="fa-solid fa-diagram-project text-cyan-400"></i>
+                <span id="diagram-modal-title">Diagram Fullscreen View</span>
+            </h4>
+            <div class="flex items-center space-x-3">
+                <button onclick="toggleDiagramModal()" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-white text-xs">
+                    <i class="fa-solid fa-xmark mr-1"></i> Close
+                </button>
+            </div>
+        </div>
+        <div id="diagram-modal-body" class="flex-1 overflow-auto p-8 flex items-center justify-center">
+            <!-- Diagram SVG Injected Here -->
+        </div>
+    </div>
+
+    <!-- Client-Side Document Enhancement & Interactivity Script -->
+    <script>
+        // Initialize Mermaid
+        if (window.mermaid) {
+            mermaid.initialize({
+                startOnLoad: false,
+                theme: 'dark',
+                securityLevel: 'loose',
+                themeVariables: {
+                    darkMode: true,
+                    background: '#0b111e',
+                    primaryColor: '#1e293b',
+                    primaryTextColor: '#f8fafc',
+                    primaryBorderColor: '#0ea5e9',
+                    lineColor: '#38bdf8',
+                    secondaryColor: '#1e1b4b',
+                    tertiaryColor: '#064e3b',
+                    fontFamily: 'Inter, system-ui, sans-serif'
+                }
+            });
+        }
+
+        // Enhance Diagrams, Code Blocks, Callouts & Table of Contents
+        function enhanceDocument() {
+            try {
+                // 1. Transform Mermaid Blocks into Diagram Cards
+                document.querySelectorAll("#doc-content pre code.language-mermaid").forEach((codeBlock, idx) => {
+                    const rawMermaid = codeBlock.textContent.trim();
+                    const container = document.createElement("div");
+                    container.className = "mermaid-block";
+                    container.innerHTML = `
+                        <div class="mermaid-container">
+                            <div class="flex items-center justify-between mb-3 pb-2 border-b border-darkborder/70 text-xs">
+                                <span class="font-mono text-cyan-400 flex items-center space-x-1.5">
+                                    <i class="fa-solid fa-diagram-project"></i>
+                                    <span>ARCHITECTURE / WORKFLOW DIAGRAM</span>
+                                </span>
+                                <div class="flex items-center space-x-2">
+                                    <button onclick="openDiagramInModal(this)" class="px-2 py-1 rounded bg-darkbg border border-darkborder hover:border-cyan-500 text-slate-300 text-[11px] flex items-center space-x-1 transition">
+                                        <i class="fa-solid fa-expand text-[10px]"></i>
+                                        <span>Expand</span>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="mermaid">${rawMermaid}</div>
+                        </div>
+                    `;
+                    const pre = codeBlock.parentElement;
+                    pre.parentElement.replaceChild(container, pre);
+                });
+
+                // 2. Transform Regular Code Blocks with Header, Dots & Copy Button
+                document.querySelectorAll("#doc-content pre code:not(.language-mermaid)").forEach(codeBlock => {
+                    const pre = codeBlock.parentElement;
+                    if (pre.parentElement.classList.contains("code-container")) return;
+
+                    const classes = (codeBlock.className || "").split(" ");
+                    let lang = "TEXT";
+                    for (let c of classes) {
+                        if (c.startsWith("language-")) {
+                            lang = c.replace("language-", "").toUpperCase();
+                            break;
+                        }
+                    }
+
+                    const wrapper = document.createElement("div");
+                    wrapper.className = "code-container my-4 rounded-xl border border-darkborder overflow-hidden bg-[#0c121e]";
+                    wrapper.innerHTML = `
+                        <div class="bg-[#111827] px-4 py-2 border-b border-darkborder flex items-center justify-between text-xs">
+                            <div class="flex items-center space-x-2">
+                                <span class="inline-block w-2.5 h-2.5 rounded-full bg-red-500/70"></span>
+                                <span class="inline-block w-2.5 h-2.5 rounded-full bg-yellow-500/70"></span>
+                                <span class="inline-block w-2.5 h-2.5 rounded-full bg-green-500/70"></span>
+                                <span class="font-mono font-semibold text-slate-400 text-[11px] ml-2">${lang}</span>
+                            </div>
+                            <button onclick="copyCode(this)" class="copy-btn text-slate-400 hover:text-cyan-300 text-[11px] flex items-center space-x-1.5 transition">
+                                <i class="fa-regular fa-copy"></i>
+                                <span>Copy</span>
+                            </button>
+                        </div>
+                    `;
+                    pre.parentElement.insertBefore(wrapper, pre);
+                    wrapper.appendChild(pre);
+                    pre.className = "p-4 overflow-x-auto font-mono text-xs text-slate-200 leading-relaxed";
+
+                    if (window.hljs) {
+                        try {
+                            hljs.highlightElement(codeBlock);
+                        } catch(e) {}
+                    }
+                });
+
+                // 3. Transform Blockquotes into Callout Banners
+                document.querySelectorAll("#doc-content blockquote").forEach(bq => {
+                    const html = bq.innerHTML;
+                    if (html.includes("[!NOTE]") || html.includes("💡")) {
+                        bq.className = "callout-box callout-note";
+                        bq.innerHTML = `<i class="fa-solid fa-circle-info text-cyan-400 text-lg mt-0.5 shrink-0"></i><div>${html.replace(/\[!NOTE\]/g, "").replace(/💡/g, "")}</div>`;
+                    } else if (html.includes("[!TIP]")) {
+                        bq.className = "callout-box callout-tip";
+                        bq.innerHTML = `<i class="fa-solid fa-lightbulb text-emerald-400 text-lg mt-0.5 shrink-0"></i><div>${html.replace(/\[!TIP\]/g, "")}</div>`;
+                    } else if (html.includes("[!WARNING]") || html.includes("⚠️")) {
+                        bq.className = "callout-box callout-warning";
+                        bq.innerHTML = `<i class="fa-solid fa-triangle-exclamation text-amber-400 text-lg mt-0.5 shrink-0"></i><div>${html.replace(/\[!WARNING\]/g, "").replace(/⚠️/g, "")}</div>`;
+                    } else if (html.includes("[!DANGER]") || html.includes("⛔") || html.includes("🛑")) {
+                        bq.className = "callout-box callout-danger";
+                        bq.innerHTML = `<i class="fa-solid fa-circle-exclamation text-red-400 text-lg mt-0.5 shrink-0"></i><div>${html.replace(/\[!DANGER\]/g, "").replace(/⛔/g, "").replace(/🛑/g, "")}</div>`;
+                    }
+                });
+
+                // 4. Render Diagrams with Mermaid
+                if (window.mermaid) {
+                    mermaid.run().catch(e => console.warn("Mermaid rendering warning:", e));
+                }
+
+                // 5. Build Dynamic Table of Contents
+                buildTableOfContents();
+
+            } catch (err) {
+                console.error("Document enhancement error:", err);
+            }
+        }
+
+        // Build Dynamic Table of Contents (TOC) & Add Anchor IDs
+        function buildTableOfContents() {
+            const headings = document.querySelectorAll("#doc-content h2, #doc-content h3");
+            const tocContainer = document.getElementById("table-of-contents");
+            if (!tocContainer) return;
+            tocContainer.innerHTML = "";
+
+            headings.forEach((h, index) => {
+                const titleText = h.innerText.replace(/^[0-9.]+\s*/, '').trim();
+                const id = "section-" + index + "-" + titleText.toLowerCase().replace(/[^a-z0-9]+/g, "-");
+                h.id = id;
+
+                const isH3 = h.tagName.toLowerCase() === 'h3';
+                const link = document.createElement("a");
+                link.href = "#" + id;
+                link.className = `toc-link block py-1 transition truncate ${isH3 ? 'pl-4 text-slate-400 hover:text-cyan-300' : 'font-medium text-slate-200 hover:text-cyan-300 flex items-center space-x-1.5'}`;
+                
+                if (!isH3) {
+                    link.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-cyan-500/70 shrink-0 inline-block"></span><span class="truncate">${titleText}</span>`;
+                } else {
+                    link.innerText = titleText;
+                }
+
+                tocContainer.appendChild(link);
+            });
+
+            const countEl = document.getElementById("toc-count");
+            if (countEl) countEl.innerText = headings.length + " topics";
+        }
+
+        // Run enhancement on load
+        if (document.readyState === "loading") {
+            document.addEventListener("DOMContentLoaded", enhanceDocument);
+        } else {
+            enhanceDocument();
+        }
+            tocContainer.innerHTML = "";
+
+            headings.forEach((h, index) => {
+                const titleText = h.innerText.replace(/^[0-9.]+\s*/, '').trim();
+                const id = "section-" + index + "-" + titleText.toLowerCase().replace(/[^a-z0-9]+/g, "-");
+                h.id = id;
+
+                const isH3 = h.tagName.toLowerCase() === 'h3';
+                const link = document.createElement("a");
+                link.href = "#" + id;
+                link.className = `toc-link block py-1 transition truncate ${isH3 ? 'pl-4 text-slate-400 hover:text-cyan-300' : 'font-medium text-slate-200 hover:text-cyan-300 flex items-center space-x-1.5'}`;
+                
+                if (!isH3) {
+                    link.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-cyan-500/70 shrink-0 inline-block"></span><span class="truncate">${titleText}</span>`;
+                } else {
+                    link.innerText = titleText;
+                }
+
+                tocContainer.appendChild(link);
+            });
+
+            document.getElementById("toc-count").innerText = headings.length + " topics";
+        }
+        buildTableOfContents();
+
+        // Scrollspy: Highlight Active Section in TOC
+        window.addEventListener("scroll", () => {
+            // Scroll Progress Indicator
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            document.getElementById("scroll-progress").style.width = scrolled + "%";
+
+            // Back to top button visibility
+            const backToTop = document.getElementById("back-to-top");
+            if (winScroll > 400) {
+                backToTop.classList.remove("opacity-0", "pointer-events-none");
+                backToTop.classList.add("opacity-100");
+            } else {
+                backToTop.classList.add("opacity-0", "pointer-events-none");
+                backToTop.classList.remove("opacity-100");
+            }
+
+            // Scrollspy Heading Detection
+            const headings = document.querySelectorAll("#doc-content h2, #doc-content h3");
+            let currentActiveId = "";
+            headings.forEach(h => {
+                const rect = h.getBoundingClientRect();
+                if (rect.top <= 140) {
+                    currentActiveId = h.id;
+                }
+            });
+
+            if (currentActiveId) {
+                document.querySelectorAll(".toc-link").forEach(link => {
+                    if (link.getAttribute("href") === "#" + currentActiveId) {
+                        link.classList.add("text-cyan-400", "font-bold");
+                        link.classList.remove("text-slate-400", "text-slate-200");
+                    } else {
+                        link.classList.remove("text-cyan-400", "font-bold");
+                    }
+                });
+            }
+        });
+
+        // Copy Code Functionality
+        function copyCode(btn) {
+            const pre = btn.closest(".code-container").querySelector("pre");
+            navigator.clipboard.writeText(pre.innerText).then(() => {
+                const originalHtml = btn.innerHTML;
+                btn.innerHTML = `<i class="fa-solid fa-check text-emerald-400"></i><span class="text-emerald-400 font-semibold">Copied!</span>`;
+                setTimeout(() => { btn.innerHTML = originalHtml; }, 2000);
+            });
+        }
+
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text);
+        }
+
+        function copyDocumentLink() {
+            navigator.clipboard.writeText(window.location.href).then(() => {
+                const btn = document.getElementById("copy-link-btn");
+                const originalHtml = btn.innerHTML;
+                btn.innerHTML = `<i class="fa-solid fa-check text-emerald-400"></i><span>Link Copied!</span>`;
+                setTimeout(() => { btn.innerHTML = originalHtml; }, 2000);
+            });
+        }
+
+        // Quick Jump Shortcuts
+        function scrollToFirstDiagram() {
+            const diagram = document.querySelector(".mermaid-container");
+            if (diagram) diagram.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+
+        function scrollToFirstTable() {
+            const table = document.querySelector("#doc-content table");
+            if (table) table.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+
+        // Fullscreen Diagram Modal
+        function openDiagramInModal(btn) {
+            const container = btn.closest(".mermaid-container");
+            const svg = container.querySelector("svg");
+            if (!svg) return;
+            const modalBody = document.getElementById("diagram-modal-body");
+            modalBody.innerHTML = svg.outerHTML;
+            document.getElementById("diagram-modal").classList.remove("hidden");
+        }
+
+        function toggleDiagramModal() {
+            document.getElementById("diagram-modal").classList.toggle("hidden");
+        }
+
+        // Interactive Playground Modal
+        function togglePlaygroundModal() {
+            document.getElementById("playground-modal").classList.toggle("hidden");
+        }
+
+        function showPlaygroundTab(tab) {
+            document.getElementById("pg-content-scope").classList.toggle("hidden", tab !== 'scope');
+            document.getElementById("pg-content-jsonrpc").classList.toggle("hidden", tab !== 'jsonrpc');
+            document.getElementById("pg-content-models").classList.toggle("hidden", tab !== 'models');
+
+            const btnScope = document.getElementById("pg-tab-scope");
+            const btnJson = document.getElementById("pg-tab-jsonrpc");
+            const btnModels = document.getElementById("pg-tab-models");
+
+            [btnScope, btnJson, btnModels].forEach(b => {
+                b.className = "px-3 py-2 rounded-t-lg font-medium text-slate-400 hover:text-slate-200";
+            });
+
+            if (tab === 'scope') {
+                btnScope.className = "px-3 py-2 rounded-t-lg font-medium border-b-2 border-cyan-400 text-cyan-300 bg-darkbg";
+            } else if (tab === 'jsonrpc') {
+                btnJson.className = "px-3 py-2 rounded-t-lg font-medium border-b-2 border-cyan-400 text-cyan-300 bg-darkbg";
+                showJsonRpcStep('initialize');
+            } else if (tab === 'models') {
+                btnModels.className = "px-3 py-2 rounded-t-lg font-medium border-b-2 border-cyan-400 text-cyan-300 bg-darkbg";
+            }
+        }
+
+        // Scope Simulator Logic
+        function simulateScopeTest() {
+            const input = document.getElementById("sim-target-input").value.trim();
+            const resContainer = document.getElementById("sim-scope-result");
+
+            if (!input) {
+                resContainer.innerHTML = `<span class="text-amber-400">Please enter a domain or IP target.</span>`;
+                return;
+            }
+
+            // Extract Hostname
+            let host = input;
+            if (host.includes("://")) {
+                try {
+                    host = new URL(host).hostname;
+                } catch(e) {
+                    host = input.split("://")[1].split("/")[0];
+                }
+            } else if (host.includes("/")) {
+                host = host.split("/")[0];
+            }
+
+            // Scope Check Rules
+            const allowedDomains = ["localhost", "127.0.0.1", "example.com", "*.example.com"];
+            let isAllowed = false;
+            let matchedRule = "";
+
+            for (let rule of allowedDomains) {
+                if (rule.startsWith("*.") && host.endsWith(rule.slice(2))) {
+                    isAllowed = true;
+                    matchedRule = `Wildcard rule: ${rule}`;
+                    break;
+                } else if (host === rule) {
+                    isAllowed = true;
+                    matchedRule = `Exact domain rule: ${rule}`;
+                    break;
+                }
+            }
+
+            // Simple CIDR Check (192.168.1.0/24 or 127.0.0.0/8)
+            if (!isAllowed && (host.startsWith("192.168.1.") || host.startsWith("127."))) {
+                isAllowed = true;
+                matchedRule = `CIDR subnet rule: 192.168.1.0/24 or 127.0.0.0/8`;
+            }
+
+            if (isAllowed) {
+                resContainer.innerHTML = `
+                    <div class="text-emerald-400 font-bold flex items-center space-x-2">
+                        <i class="fa-solid fa-circle-check"></i>
+                        <span>PERMITTED BY SCOPE POLICY (Passed!)</span>
+                    </div>
+                    <div class="text-slate-300 text-xs">Target Host: <span class="text-cyan-300 font-semibold">${host}</span></div>
+                    <div class="text-slate-400 text-xs">Matched Criteria: <span class="text-emerald-300">${matchedRule}</span></div>
+                    <div class="text-slate-500 text-[11px] mt-2">Action: Subprocess tools/call will be permitted.</div>
+                `;
+            } else {
+                resContainer.innerHTML = `
+                    <div class="text-red-400 font-bold flex items-center space-x-2">
+                        <i class="fa-solid fa-circle-xmark"></i>
+                        <span>REJECTED_SCOPE (Blocked for Operator Safety!)</span>
+                    </div>
+                    <div class="text-slate-300 text-xs">Target Host: <span class="text-red-300 font-semibold">${host}</span></div>
+                    <div class="text-slate-400 text-xs">Reason: Target is not in allowed_domains or allowed_cidrs list.</div>
+                    <div class="text-slate-500 text-[11px] mt-2">Fix: Go to Scope & Guardrails tab, add <code>${host}</code> to Allowed Domains, and save policy.</div>
+                `;
+            }
+        }
+
+        // JSON-RPC Step Display
+        const jsonRpcSamples = {
+            'initialize': {
+                title: "1. Handshake: initialize (Client -> Server)",
+                req: '{"jsonrpc": "2.0", "id": 1, "method": "initialize", "params": {"protocolVersion": "2024-11-05"}}',
+                res: '{"jsonrpc": "2.0", "id": 1, "result": {"protocolVersion": "2024-11-05", "capabilities": {"tools": {}}, "serverInfo": {"name": "security_inspector", "version": "1.0.0"}}}'
+            },
+            'notifications/initialized': {
+                title: "2. Handshake: notifications/initialized (Client -> Server)",
+                req: '{"jsonrpc": "2.0", "method": "notifications/initialized", "params": {}}',
+                res: "/* Notification requires no response from server */"
+            },
+            'tools/list': {
+                title: "3. Tool Discovery: tools/list (Client -> Server)",
+                req: '{"jsonrpc": "2.0", "id": 2, "method": "tools/list", "params": {}}',
+                res: '{"jsonrpc": "2.0", "id": 2, "result": {"tools": [{"name": "check_security_headers", "description": "Inspects defensive HTTP headers", "inputSchema": {"type": "object", "properties": {"target_url": {"type": "string"}}}}]}}'
+            },
+            'tools/call': {
+                title: "4. Execution: tools/call (Client -> Server)",
+                req: '{"jsonrpc": "2.0", "id": 3, "method": "tools/call", "params": {"name": "check_security_headers", "arguments": {"target_url": "https://example.com"}}}',
+                res: '{"jsonrpc": "2.0", "id": 3, "result": {"content": [{"type": "text", "text": "{\\"grade\\": \\"F\\", \\"missing_headers\\": [\\"Strict-Transport-Security\\", \\"Content-Security-Policy\\"]}"}], "isError": false}}'
+            }
+        };
+
+        function showJsonRpcStep(step) {
+            const data = jsonRpcSamples[step];
+            if (!data) return;
+            const container = document.getElementById("sim-jsonrpc-display");
+            container.innerHTML = `
+                <div class="text-cyan-400 font-bold mb-2">${data.title}</div>
+                <div class="text-slate-400 text-[11px] mb-1">REQUEST (stdin):</div>
+                <pre class="bg-black/40 p-2 rounded border border-darkborder text-emerald-300 text-[11px] mb-3">${data.req}</pre>
+                <div class="text-slate-400 text-[11px] mb-1">RESPONSE (stdout):</div>
+                <pre class="bg-black/40 p-2 rounded border border-darkborder text-cyan-300 text-[11px]">${data.res}</pre>
+            `;
+        }
+
+        // Live Document Search Feature
+        function handleDocSearch(query) {
+            const clearBtn = document.getElementById("clear-search-btn");
+            const statusBar = document.getElementById("search-status-bar");
+            const statusText = document.getElementById("search-status-text");
+
+            if (!query || query.trim().length < 2) {
+                clearBtn.classList.add("hidden");
+                statusBar.classList.add("hidden");
+                removeHighlights();
+                return;
+            }
+
+            clearBtn.classList.remove("hidden");
+            removeHighlights();
+
+            const textNodes = getTextNodes(document.getElementById("doc-content"));
+            let matchCount = 0;
+            const regex = new RegExp(`(${escapeRegex(query)})`, 'gi');
+
+            textNodes.forEach(node => {
+                if (regex.test(node.nodeValue)) {
+                    const span = document.createElement("span");
+                    span.innerHTML = node.nodeValue.replace(regex, '<mark class="search-match">$1</mark>');
+                    node.parentNode.replaceChild(span, node);
+                    matchCount++;
+                }
+            });
+
+            statusBar.classList.remove("hidden");
+            statusText.innerText = `Found ${matchCount} matches for "${query}"`;
+
+            // Scroll to first match
+            const firstMatch = document.querySelector(".search-match");
+            if (firstMatch) {
+                firstMatch.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+        }
+
+        function clearDocSearch() {
+            document.getElementById("doc-search-input").value = "";
+            document.getElementById("clear-search-btn").classList.add("hidden");
+            document.getElementById("search-status-bar").classList.add("hidden");
+            removeHighlights();
+        }
+
+        function removeHighlights() {
+            document.querySelectorAll(".search-match").forEach(mark => {
+                const parent = mark.parentNode;
+                parent.replaceChild(document.createTextNode(mark.innerText), mark);
+                parent.normalize();
+            });
+        }
+
+        function getTextNodes(node) {
+            const textNodes = [];
+            if (node.nodeType === 3) {
+                textNodes.push(node);
+            } else if (node.nodeType === 1 && node.tagName !== 'SCRIPT' && node.tagName !== 'STYLE') {
+                for (let child of node.childNodes) {
+                    textNodes.push(...getTextNodes(child));
+                }
+            }
+            return textNodes;
+        }
+
+        function escapeRegex(string) {
+            return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        }
+    </script>
+</body>
+</html>

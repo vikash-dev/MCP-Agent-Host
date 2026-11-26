@@ -93,9 +93,9 @@ def test_policy_api(client):
 
     # Update policy
     update_res = client.post("/api/policy", json={
-        "allowed_domains": ["example.com", "test.corp"],
-        "allowed_cidrs": ["10.0.0.0/8"],
-        "allowed_paths": ["./sample_data", "./runs"],
+        "allowed_domains": ["example.com", "test.corp", "localhost", "127.0.0.1", "*.example.com"],
+        "allowed_cidrs": ["10.0.0.0/8", "192.168.1.0/24"],
+        "allowed_paths": ["./logs", "./artifacts", "./sample_data", "./runs"],
         "timeout_seconds": 25,
         "max_output_chars": 5000,
         "sensitive_tools": ["inspect_tls_cert"]
@@ -131,3 +131,17 @@ def test_chat_interaction_and_report_api(client):
     html_res = client.get(f"/api/sessions/{session_id}/report/html")
     assert html_res.status_code == 200
     assert "<!DOCTYPE html>" in html_res.text
+
+
+def test_documentation_guide_pages(client):
+    # Test User Guide HTML page
+    ug_res = client.get("/docs/user-guide")
+    assert ug_res.status_code == 200
+    assert "Beginner-to-Pro Guide" in ug_res.text
+    assert "Brain" in ug_res.text
+
+    # Test Developer Guide HTML page
+    dg_res = client.get("/docs/developer-guide")
+    assert dg_res.status_code == 200
+    assert "Developer" in dg_res.text
+    assert "JSON-RPC" in dg_res.text

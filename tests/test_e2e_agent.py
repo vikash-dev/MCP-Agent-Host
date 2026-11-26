@@ -4,18 +4,20 @@ End-to-End Integration Tests for MCP Agent Host.
 
 import os
 import json
+import uuid
 import pytest
 from core.agent import AgentHost
 
 
 @pytest.mark.asyncio
 async def test_end_to_end_agent_flow(tmp_path):
-    # Initialize AgentHost with mock model and auto-approve enabled
+    # Initialize AgentHost with mock model, unique session ID, and auto-approve enabled
+    session_uid = uuid.uuid4().hex[:8]
     agent = AgentHost(
         config_dir="config",
         active_model="mock/security-agent",
         auto_approve=True,
-        session_id=f"test_session_{tmp_path.name}"
+        session_id=f"test_session_{session_uid}"
     )
 
     try:
