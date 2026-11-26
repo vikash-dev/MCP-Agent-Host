@@ -30,7 +30,7 @@
       ],
       "cwd": ".",
       "env": {},
-      "enabled": false,
+      "enabled": true,
       "requires_approval": true,
       "tools_require_approval": []
     },
@@ -44,6 +44,36 @@
       },
       "enabled": true,
       "requires_approval": true,
+      "tools_require_approval": []
+    },
+    "dns_email_auditor": {
+      "name": "dns_email_auditor",
+      "description": "Passive read-only DNS record, email posture (SPF/DMARC/DKIM), and security.txt auditor",
+      "transport": "stdio",
+      "command": "python",
+      "args": [
+        "-u",
+        "servers/dns_email_auditor_mcp.py"
+      ],
+      "cwd": ".",
+      "env": {},
+      "enabled": true,
+      "requires_approval": false,
+      "tools_require_approval": []
+    },
+    "pcap_inspector": {
+      "name": "pcap_inspector",
+      "description": "Read-only local .pcap and .pcapng packet capture summarizer, host extractor, and packet filter",
+      "transport": "stdio",
+      "command": "python",
+      "args": [
+        "-u",
+        "servers/pcap_inspector_mcp.py"
+      ],
+      "cwd": ".",
+      "env": {},
+      "enabled": true,
+      "requires_approval": false,
       "tools_require_approval": []
     }
   }
